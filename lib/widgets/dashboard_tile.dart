@@ -18,37 +18,38 @@ class DashboardTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(10),
-        color: Appcolor.blue,
-      ),
-      padding: EdgeInsets.all(2.w),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            children: [
-              Icon(icon, size: 20.sp, color: Colors.white),
-              SizedBox(width: 5),
-              Expanded(
-                child: Text(
-                  title,
-                  style: kTextStyle(15.sp, color: Colors.white),
-                  overflow: TextOverflow.ellipsis,
+    return Card.filled(
+      elevation: 1,
+      color: const Color.fromARGB(255, 243, 231, 212),
+      child: Container(
+        decoration: BoxDecoration(borderRadius: BorderRadius.circular(10)),
+        padding: EdgeInsets.all(2.w),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              children: [
+                Icon(icon, size: 20.sp, color: Appcolor.brown),
+                SizedBox(width: 5),
+                Expanded(
+                  child: Text(
+                    title,
+                    style: kTextStyle(15.sp, color: Appcolor.brown),
+                    overflow: TextOverflow.ellipsis,
+                  ),
                 ),
-              ),
-            ],
-          ),
-          SizedBox(height: 1.h),
-          Text(
-            count.toString(),
-            style: kTextStyle(
-              20.sp,
-              color: Colors.white,
-            ).copyWith(fontWeight: FontWeight.bold),
-          ),
-        ],
+              ],
+            ),
+            SizedBox(height: 1.h),
+            Text(
+              count.toString(),
+              style: kTextStyle(
+                20.sp,
+                color: Appcolor.brown,
+              ).copyWith(fontWeight: FontWeight.bold),
+            ),
+          ],
+        ),
       ),
     );
   }

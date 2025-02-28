@@ -16,6 +16,10 @@ extension NavExts on BuildContext {
       MaterialPageRoute(builder: (context) => screen),
     );
   }
+
+  double get screenHeight => MediaQuery.of(this).size.height;
+
+  double get screenWidth => MediaQuery.of(this).size.width;
 }
 
 extension WidgetExts on Widget {

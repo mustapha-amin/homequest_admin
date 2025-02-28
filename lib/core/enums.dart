@@ -16,7 +16,7 @@ enum SideMenuItem {
 
 enum ListingType { rent, sale }
 
-enum UserType { agent, client, none }
+enum UserType { agent, client }
 
 enum PropertyType {
   all,

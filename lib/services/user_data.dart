@@ -39,4 +39,11 @@ class UserData {
       return value.docs.map((e) => PropertyListing.fromJson(e.data())).toList();
     });
   }
+
+  Future<AgentModel> fetchAgentDetail(String id) async {
+    return firebaseFirestore.collection('agents').doc(id).get().then((value) {
+      return AgentModel.fromJson(value.data()!);
+    });
+
+  }
 }

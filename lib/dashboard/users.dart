@@ -1,18 +1,12 @@
 part of 'dashboard_exports.dart';
 
-// Riverpod Provider for managing filter state
-final userTypeProvider = StateProvider<bool>(
-  (ref) => true,
-); // true = Clients, false = Agents
-
 class UserManagementScreen extends ConsumerWidget {
   const UserManagementScreen({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final showClients = ref.watch(userTypeProvider);
+    bool showClients = ref.watch(userTypeProvider) == UserType.client;
     return Scaffold(
-      appBar: AppBar(title: const Text("User Management")),
       body: ref
           .watch(fetchUsersProvider)
           .when(
@@ -27,23 +21,11 @@ class UserManagementScreen extends ConsumerWidget {
                       )
                       .toList();
               return Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                spacing: 8,
                 children: [
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: SegmentedButton<bool>(
-                      segments: const [
-                        ButtonSegment(value: true, label: Text("Clients")),
-                        ButtonSegment(value: false, label: Text("Agents")),
-                      ],
-                      selected: {showClients},
-                      onSelectionChanged:
-                          (value) =>
-                              ref.read(userTypeProvider.notifier).state =
-                                  value.first,
-                    ),
-                  ),
-
-                  // User List
+                  Text("User Management", style: kTextStyle(25)),
+                  UserTypeSegBttn(),
                   Expanded(
                     child: LayoutBuilder(
                       builder: (context, constraints) {

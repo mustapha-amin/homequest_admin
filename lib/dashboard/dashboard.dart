@@ -21,14 +21,16 @@ class Dashboard extends StatefulWidget {
 class _DashboardState extends State<Dashboard> {
   @override
   Widget build(BuildContext context) {
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        MediaQuery.of(context).size.width > 900
-            ? SizedBox(width: 25.w, child: SideBar())
-            : SizedBox(),
-        Expanded(child: DashboardView()),
-      ],
-    ).padY(5);
+    double width = MediaQuery.of(context).size.width;
+    return Scaffold(
+      drawer: width < 900 ? SideBar() : null,
+      body: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          width > 900 ? SizedBox(width: 20.w, child: SideBar()) : SizedBox(),
+          Expanded(child: DashboardView(canShowSidebar: width < 900)),
+        ],
+      ).padY(5),
+    );
   }
 }
