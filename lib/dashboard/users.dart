@@ -1,45 +1,56 @@
 part of 'dashboard_exports.dart';
 
 class UserManagementScreen extends ConsumerWidget {
-  const UserManagementScreen({super.key});
+  bool? isFullScreen;
+  UserManagementScreen({this.isFullScreen, super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     bool showClients = ref.watch(userTypeProvider) == UserType.client;
-    return Scaffold(
-      body: ref
-          .watch(fetchUsersProvider)
-          .when(
-            data: (users) {
-              final filteredUsers =
-                  users
-                      .where(
-                        (user) =>
-                            showClients
-                                ? user is ClientModel
-                                : user is AgentModel,
-                      )
-                      .toList();
-              return Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                spacing: 8,
-                children: [
-                  Text("User Management", style: kTextStyle(25)),
-                  UserTypeSegBttn(),
-                  Expanded(
-                    child: LayoutBuilder(
-                      builder: (context, constraints) {
-                        return SingleChildScrollView(
+    return ref
+        .watch(fetchUsersProvider)
+        .when(
+          data: (users) {
+            final filteredUsers =
+                users
+                    .where(
+                      (user) =>
+                          showClients
+                              ? user is ClientModel
+                              : user is AgentModel,
+                    )
+                    .toList();
+            return Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              spacing: 8,
+              children: [
+                Row(
+                  children: [
+                    Text(
+                      "HomeQuest users",
+                      style: kTextStyle(25, isBold: true),
+                    ),
+                  ],
+                ),
+                UserTypeSegBttn(),
+                Expanded(
+                  child: LayoutBuilder(
+                    builder: (context, constraints) {
+                      return Scrollbar(
+                        thumbVisibility: true,
+                        trackVisibility: true,
+                        child: SingleChildScrollView(
                           scrollDirection:
                               Axis.horizontal, // Allows horizontal scrolling if needed
                           child: ConstrainedBox(
                             constraints: BoxConstraints(
-                              minWidth: constraints.maxWidth,
+                              minWidth: context.screenWidth * .80,
                             ),
                             child: DataTable(
                               showBottomBorder: true,
                               border: TableBorder.all(),
                               columns: [
+                                DataColumn(label: Text("S/N")),
                                 DataColumn(
                                   label: Text(
                                     "Name",
@@ -64,6 +75,12 @@ class UserManagementScreen extends ConsumerWidget {
                                   filteredUsers.map((user) {
                                     return DataRow(
                                       cells: [
+                                        DataCell(
+                                          Text(
+                                            (filteredUsers.indexOf(user) + 1)
+                                                .toString(),
+                                          ),
+                                        ),
                                         DataCell(Text(user.name)),
                                         DataCell(Text(user.email)),
                                         if (!showClients)
@@ -99,20 +116,20 @@ class UserManagementScreen extends ConsumerWidget {
                                   }).toList(),
                             ),
                           ),
-                        );
-                      },
-                    ),
+                        ),
+                      );
+                    },
                   ),
-                ],
-              ).padX(5);
-            },
-            error: (e, stk) {
-              return Center(child: Text("Error: $e"));
-            },
-            loading: () {
-              return const Center(child: CircularProgressIndicator());
-            },
-          ),
-    );
+                ),
+              ],
+            ).padX(5);
+          },
+          error: (e, stk) {
+            return Center(child: Text("Error: $e"));
+          },
+          loading: () {
+            return const Center(child: CircularProgressIndicator());
+          },
+        );
   }
 }

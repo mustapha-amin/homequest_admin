@@ -7,7 +7,7 @@ import 'package:homequest_admin/dashboard/dashboard.dart';
 import 'package:sizer/sizer.dart';
 
 class SideBar extends ConsumerStatefulWidget {
-  const SideBar({super.key});
+  SideBar({super.key});
 
   @override
   ConsumerState<ConsumerStatefulWidget> createState() => _SideBarState();
@@ -18,7 +18,7 @@ class _SideBarState extends ConsumerState<SideBar> {
   Widget build(BuildContext context) {
     return Drawer(
       backgroundColor: Colors.white,
-      width: 40.w,
+
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.only(
           topRight: Radius.circular(5),
@@ -46,7 +46,7 @@ class _SideBarState extends ConsumerState<SideBar> {
                         vertical: 20,
                         horizontal: 5,
                       ),
-                      width: 38.w,
+                      width: double.infinity,
                       decoration: BoxDecoration(
                         color: const Color.fromARGB(255, 243, 231, 212),
                         borderRadius: BorderRadius.circular(10),
@@ -67,7 +67,7 @@ class _SideBarState extends ConsumerState<SideBar> {
                 ],
               ),
             ),
-            Text(MediaQuery.of(context).size.width.toString()),
+            //Text(MediaQuery.of(context).size.width.toString()),
           ],
         ),
       ),

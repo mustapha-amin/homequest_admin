@@ -25,6 +25,7 @@ class _DashboardState extends State<Dashboard> {
     return Scaffold(
       drawer: width < 900 ? SideBar() : null,
       body: Row(
+        mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           width > 900 ? SizedBox(width: 20.w, child: SideBar()) : SizedBox(),

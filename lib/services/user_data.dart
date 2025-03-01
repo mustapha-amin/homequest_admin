@@ -6,15 +6,22 @@ import 'package:homequest_admin/models/property_listing.dart';
 import 'package:homequest_admin/models/user.dart';
 
 final fetchUsersProvider = FutureProvider((ref) async {
-  return ref.watch(userDataProvider).fetchUsers();
+  return ref.read(userDataProvider).fetchUsers();
 });
 
 final fetchListingsProvider = FutureProvider((ref) async {
-  return ref.watch(userDataProvider).fetchListings();
+  return ref.read(userDataProvider).fetchListings();
 });
 
 final userDataProvider = Provider((ref) {
   return UserData(firebaseFirestore: FirebaseFirestore.instance);
+});
+
+final fetchAgentDetailProvider = FutureProvider.family<AgentModel, String>((
+  ref,
+  uid,
+) async {
+  return ref.read(userDataProvider).fetchAgentDetail(uid);
 });
 
 class UserData {
@@ -23,13 +30,19 @@ class UserData {
   UserData({required this.firebaseFirestore});
 
   Future<List<User>> fetchUsers() async {
-    List<ClientModel> clients = await firebaseFirestore.collection('clients').get().then((value) {
-      return value.docs.map((e) => ClientModel.fromJson(e.data())).toList();
-    });
+    List<ClientModel> clients = await firebaseFirestore
+        .collection('clients')
+        .get()
+        .then((value) {
+          return value.docs.map((e) => ClientModel.fromJson(e.data())).toList();
+        });
 
-    List<AgentModel> agents = await firebaseFirestore.collection('agents').get().then((value) {
-      return value.docs.map((e) => AgentModel.fromJson(e.data())).toList();
-    });
+    List<AgentModel> agents = await firebaseFirestore
+        .collection('agents')
+        .get()
+        .then((value) {
+          return value.docs.map((e) => AgentModel.fromJson(e.data())).toList();
+        });
 
     return [...clients, ...agents];
   }
@@ -44,6 +57,5 @@ class UserData {
     return firebaseFirestore.collection('agents').doc(id).get().then((value) {
       return AgentModel.fromJson(value.data()!);
     });
-
   }
 }

@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 extension NavExts on BuildContext {
   void push(Widget screen) {
@@ -52,5 +53,15 @@ extension GeopointExt on GeoPoint {
 
   String toStringg() {
     return '$latitude $longitude';
+  }
+}
+
+extension MoneyExts on num {
+  String get toMoney {
+    return NumberFormat.currency(symbol: '₦', decimalDigits: 0).format(this);
+  }
+
+  String get toMoneyNoSymb {
+    return NumberFormat.currency(symbol: '', decimalDigits: 0).format(this);
   }
 }

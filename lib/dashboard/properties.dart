@@ -16,7 +16,10 @@ class _PropertiesState extends ConsumerState<Properties> {
       children: [
         Padding(
           padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-          child: Text("Properties", style: kTextStyle(20)),
+          child: Text(
+            "Listed properties (${ref.watch(fetchListingsProvider).whenData((prop) => prop.length).value})",
+            style: kTextStyle(25, isBold: true),
+          ),
         ),
         Expanded(
           child: ref
@@ -33,61 +36,62 @@ class _PropertiesState extends ConsumerState<Properties> {
                               : 2,
                       crossAxisSpacing: 5,
                       mainAxisSpacing: 5,
-                      childAspectRatio: 1.4,
+                      childAspectRatio: 0.7,
                     ),
                     itemCount: properties.length,
                     itemBuilder: (context, index) {
                       return PropertyListingWidget(
                         propertyListing: properties[index],
-                      );
+                      ).padY(8);
                     },
                   ).padAll(5);
                 },
-                loading: () =>GridView.builder(
-                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount:
-                        widget.width > 1120
-                            ? 4
-                            : widget.width < 1120 && widget.width > 600
-                            ? 3
-                            : 2,
-                    crossAxisSpacing: 5,
-                    mainAxisSpacing: 5,
-                    childAspectRatio: 1.4,
-                  ),
-                  itemCount: 10,
-                  itemBuilder: (context, index) {
-                    return Skeletonizer(
-                      child: PropertyListingWidget(
-                        propertyListing: PropertyListing(
-                          imagesUrls: [
-                            "https://images.unsplash.com/photo-1612838320302-4b3b3b3b3b3b",
-                          ],
-                          price: 100000,
-                          address: "1234, Random Street, Random City",
-                          agentFee: 2,
-                          id: 's',
-                          agentID: 's',
-                          propertyType: PropertyType.apartment,
-                          propertySize: 20,
-                          listingType: ListingType.rent,
-                          kitchens: 2,
-                          sittingRooms: 2,
-                          condition: Condition.all,
-                          facilities: [],
-                          furnishing: Furnishing.furnished,
-                          propertySubtype: PropertySubtype.detached,
-                          geoPoint: GeoPoint(2, 2),
-                          state: '',
-                          lga: '',
-                          available: true,
-                          bedrooms: 3,
-                          bathrooms: 2,
-                        ),
+                loading:
+                    () => GridView.builder(
+                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount:
+                            widget.width > 1120
+                                ? 4
+                                : widget.width < 1120 && widget.width > 600
+                                ? 3
+                                : 2,
+                        crossAxisSpacing: 5,
+                        mainAxisSpacing: 5,
+                        childAspectRatio: 1.4,
                       ),
-                    );
-                  },
-                ).padAll(5),
+                      itemCount: 10,
+                      itemBuilder: (context, index) {
+                        return Skeletonizer(
+                          child: PropertyListingWidget(
+                            propertyListing: PropertyListing(
+                              imagesUrls: [
+                                "https://images.unsplash.com/photo-1612838320302-4b3b3b3b3b3b",
+                              ],
+                              price: 100000,
+                              address: "1234, Random Street, Random City",
+                              agentFee: 2,
+                              id: 's',
+                              agentID: 's',
+                              propertyType: PropertyType.apartment,
+                              propertySize: 20,
+                              listingType: ListingType.rent,
+                              kitchens: 2,
+                              sittingRooms: 2,
+                              condition: Condition.all,
+                              facilities: [],
+                              furnishing: Furnishing.furnished,
+                              propertySubtype: PropertySubtype.detached,
+                              geoPoint: GeoPoint(2, 2),
+                              state: '',
+                              lga: '',
+                              available: true,
+                              bedrooms: 3,
+                              bathrooms: 2,
+                            ),
+                          ),
+                        );
+                      },
+                    ).padAll(5),
                 error:
                     (error, stackTrace) =>
                         Center(child: Text(error.toString())),

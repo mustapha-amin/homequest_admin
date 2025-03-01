@@ -4,9 +4,7 @@ import 'package:iconsax_flutter/iconsax_flutter.dart';
 enum SideMenuItem {
   dashboard('Dashboard', Iconsax.grid_2),
   users('Users', Iconsax.user),
-  property_listings('Property Listings', Iconsax.home),
-  reports('Reports', Iconsax.note),
-  settings('Settings', Iconsax.setting);
+  property_listings('Property Listings', Iconsax.home);
 
   final String name;
   final IconData icon;
@@ -18,21 +16,9 @@ enum ListingType { rent, sale }
 
 enum UserType { agent, client }
 
-enum PropertyType {
-  all,
-  apartment,
-  mansion,
-  bungalow,
-  duplex,
-}
+enum PropertyType { all, apartment, mansion, bungalow, duplex }
 
-enum Status {
-  initial,
-  loading,
-  success,
-  error,
-}
-
+enum Status { initial, loading, success, error }
 
 enum Furnishing {
   unfurnished('unfurnished'),
