@@ -1,6 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:homequest_admin/admin_signin.dart';
 import 'package:homequest_admin/dashboard/dashboard.dart';
 import 'package:homequest_admin/firebase_options.dart';
 import 'package:sizer/sizer.dart';
@@ -29,7 +30,7 @@ class MyApp extends StatelessWidget {
               ),
               scaffoldBackgroundColor: Colors.white,
             ),
-            home: const Dashboard(),
+            home: AdminSignInScreen(),
           ),
         );
       },
