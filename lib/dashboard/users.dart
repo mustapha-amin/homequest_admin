@@ -44,11 +44,16 @@ class UserManagementScreen extends ConsumerWidget {
                               Axis.horizontal, // Allows horizontal scrolling if needed
                           child: ConstrainedBox(
                             constraints: BoxConstraints(
-                              minWidth: context.screenWidth * .80,
+                              minWidth:
+                                  context.screenWidth < 900
+                                      ? context.screenWidth * .8
+                                      : context.screenWidth * .6,
                             ),
                             child: DataTable(
                               showBottomBorder: true,
-                              border: TableBorder.all(),
+                              border: TableBorder.all(
+                                borderRadius: BorderRadius.circular(8),
+                              ),
                               columns: [
                                 DataColumn(label: Text("S/N")),
                                 DataColumn(
@@ -69,7 +74,13 @@ class UserManagementScreen extends ConsumerWidget {
                                       "Listings",
                                       style: kTextStyle(18, isBold: true),
                                     ),
-                                  ), // Only show for agents
+                                  ),
+                                DataColumn(
+                                  label: Text(
+                                    "Action",
+                                    style: kTextStyle(18, isBold: true),
+                                  ),
+                                ),
                               ],
                               rows:
                                   filteredUsers.map((user) {
@@ -110,7 +121,55 @@ class UserManagementScreen extends ConsumerWidget {
                                                     return Text('...');
                                                   },
                                                 ),
-                                          ), // Show listing count for agents
+                                          ),
+                                        DataCell(
+                                          IconButton(
+                                            onPressed: () {
+                                              showDialog(
+                                                context: context,
+                                                builder: (context) {
+                                                  return AlertDialog(
+                                                    title: Text("Delete user"),
+                                                    content: Text(
+                                                      "Do you want to delete this user from the database",
+                                                    ),
+                                                    actions: [
+                                                      TextButton(
+                                                        onPressed: () {
+                                                          showClients
+                                                              ? ref.read(
+                                                                deleteClientProvider(
+                                                                  user.id,
+                                                                ),
+                                                              )
+                                                              : ref.read(
+                                                                deleteAgentProvider(
+                                                                  user.id,
+                                                                ),
+                                                              );
+
+                                                          ref.invalidate(
+                                                            fetchUsersProvider,
+                                                          );
+                                                        },
+                                                        child: Text("Yes"),
+                                                      ),
+                                                      TextButton(
+                                                        onPressed: () {
+                                                          Navigator.of(
+                                                            context,
+                                                          ).pop();
+                                                        },
+                                                        child: Text("No"),
+                                                      ),
+                                                    ],
+                                                  );
+                                                },
+                                              );
+                                            },
+                                            icon: Icon(Icons.delete),
+                                          ),
+                                        ),
                                       ],
                                     );
                                   }).toList(),

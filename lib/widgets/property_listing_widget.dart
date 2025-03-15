@@ -3,7 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:homequest_admin/core/extensions.dart';
 import 'package:homequest_admin/core/utils/textstyle.dart';
 import 'package:homequest_admin/models/property_listing.dart';
-import 'package:homequest_admin/services/user_data.dart';
+import 'package:homequest_admin/services/db_service.dart';
 
 class PropertyListingWidget extends ConsumerStatefulWidget {
   final PropertyListing propertyListing;

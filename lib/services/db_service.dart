@@ -6,28 +6,36 @@ import 'package:homequest_admin/models/property_listing.dart';
 import 'package:homequest_admin/models/user.dart';
 
 final fetchUsersProvider = FutureProvider((ref) async {
-  return ref.read(userDataProvider).fetchUsers();
+  return ref.read(dbServiceProvider).fetchUsers();
 });
 
 final fetchListingsProvider = FutureProvider((ref) async {
-  return ref.read(userDataProvider).fetchListings();
+  return ref.read(dbServiceProvider).fetchListings();
 });
 
-final userDataProvider = Provider((ref) {
-  return UserData(firebaseFirestore: FirebaseFirestore.instance);
+final deleteClientProvider = FutureProvider.family<void, String>((ref, id) async {
+  return ref.read(dbServiceProvider).deleteClient(id);
+});
+
+final deleteAgentProvider = FutureProvider.family<void, String>((ref, id) async {
+  return ref.read(dbServiceProvider).deleteAgent(id);
+});
+
+final dbServiceProvider = Provider((ref) {
+  return DbService(firebaseFirestore: FirebaseFirestore.instance);
 });
 
 final fetchAgentDetailProvider = FutureProvider.family<AgentModel, String>((
   ref,
   uid,
 ) async {
-  return ref.read(userDataProvider).fetchAgentDetail(uid);
+  return ref.read(dbServiceProvider).fetchAgentDetail(uid);
 });
 
-class UserData {
+class DbService {
   final FirebaseFirestore firebaseFirestore;
 
-  UserData({required this.firebaseFirestore});
+  DbService({required this.firebaseFirestore});
 
   Future<List<User>> fetchUsers() async {
     List<ClientModel> clients = await firebaseFirestore
@@ -45,6 +53,14 @@ class UserData {
         });
 
     return [...clients, ...agents];
+  }
+
+  Future<void> deleteClient(String id) async {
+    await firebaseFirestore.collection('clients').doc(id).delete();
+  }
+
+   Future<void> deleteAgent(String id) async {
+    await firebaseFirestore.collection('agents').doc(id).delete();
   }
 
   Future<List<PropertyListing>> fetchListings() async {

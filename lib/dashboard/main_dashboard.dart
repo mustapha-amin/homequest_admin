@@ -39,7 +39,7 @@ class _MainDashboardState extends ConsumerState<MainDashboard> {
             children: <Widget>[
               DashboardTile(
                 title: 'Properties',
-                icon: Iconsax.home,
+                icon: Iconsax.buildings_2,
                 count: ref
                     .watch(fetchListingsProvider)
                     .when(
